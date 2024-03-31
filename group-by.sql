@@ -20,3 +20,12 @@ SELECT job, SUM(sal)
 FROM emp
 GROUP BY job
 ;
+
+-- 1500 이상 급여를 받는 사원들의 부서별 급여 평균
+SELECT deptno, AVG(sal)
+FROM emp
+WHERE sal >= 1500
+GROUP BY deptno
+;
+
+
