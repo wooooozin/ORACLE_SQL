@@ -1,0 +1,14 @@
+
+-- 결과가 하나 이상인 서브쿼리
+-- 결과를 모두 만족하거나 결과 중 하나만 만족허나 해야하는 경우
+-- IN , ANY, SOME, ALL
+
+-- 3000이상의 급여를 받는 사원들과 같은 부서에 근무하고 있는 사원의 사원번호, 이름, 급여
+SELECT empno, ename, sal
+FROM emp
+WHERE deptno IN (SELECT deptno FROM emp WHERE sal >= 3000);
+
+-- 직무가 클락인 사원과 동일한 부서에 근무하고 있는 사원번호 이름 입사일
+SELECT empno, ename, hiredate
+FROM emp
+WHERE deptno IN (SELECT deptno FROM emp WHERE job = 'CLERK');
