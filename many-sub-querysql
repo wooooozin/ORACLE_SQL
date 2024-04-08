@@ -12,3 +12,25 @@ WHERE deptno IN (SELECT deptno FROM emp WHERE sal >= 3000);
 SELECT empno, ename, hiredate
 FROM emp
 WHERE deptno IN (SELECT deptno FROM emp WHERE job = 'CLERK');
+
+-- KING 상관인 사원들이 근무하고 있는 부서명, 지역
+SELECT dname, loc
+FROM dept 
+WHERE deptno IN (SELECT deptno FROM emp WHERE mgr = (SELECT empno FROM emp WHERE ename = 'KING'));
+
+-- CLEKRK들의 직속 상관의 사원번호, 이름, 급여
+SELECT empno, ename, sal
+FROM emp
+WHERE empno IN (SELECT mgr
+               FROM emp
+               WHERE job = 'CLERK'
+               );
+               
+               
+-- 각 부서별 급여 평균보다 더 많이 받는 사원이 사원번호, 이름, 급여
+SELECT empno, ename, sal
+FROM emp
+WHERE sal > ALL (
+                SELECT AVG(sal)
+                FROM emp
+                GROUP BY deptno);
