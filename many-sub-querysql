@@ -34,3 +34,31 @@ WHERE sal > ALL (
                 SELECT AVG(sal)
                 FROM emp
                 GROUP BY deptno);
+                
+-- 각 부서별 급여 최저치보다 더 많이 받는 사원들의 사원번호, 이름, 급여
+SELECT empno, ename, sal
+FROM emp
+WHERE sal > ALL (SELECT MIN(sal) FROM emp GROUP BY deptno);
+
+-- 세일즈맨 보다 급여를 적게 받는 사원들의 사원번호, 이름, 급여
+SELECT *
+FROM emp
+WHERE sal < ALL (SELECT MIN(sal) FROM emp WHERE job = 'SALESMAN');
+
+SELECT MIN(sal)
+FROM emp
+WHERE job = 'SALESMAN';
+
+
+-- 각 부서별 급여 최저액 중 제일 작은 액수보다 많이 받는 사원들의 번호, 이름,급여
+SELECT *
+FROM emp
+WHERE sal > ANY (SELECT MIN(sal) FROM emp GROUP BY deptno);
+
+-- 달라스에 그눔하고있는 사원들 중 가장 최근, 빠른 사원의 입사날짜보다 더 먼저 입사한 사원들 정보
+SELECT empno, ename, hiredate
+FROM emp
+WHERE hiredate < ANY (SELECT hiredate
+FROM emp e, dept d
+WHERE e.deptno = d.deptno
+AND d.loc = 'DALLAS');
